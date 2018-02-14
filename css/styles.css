@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:600,700');
+@font-face {
+    font-family: Krungthep;
+    src: url(../fonts/Krungthep.woff);
+   }
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: none;
+
+}
+
+html {
+	height: 100%;
+  width: 100%;
+  outline: hidden;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  background-color: #1c6c2e;
+}
+
+ul li{
+  list-style-type: none;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  align-content: center; 
+  justify-content: center; 
+  overflow: auto;   
+}
+
+  #container__start {
+      display: block;
+      width: 820px;
+      text-align: center;
+  }
+    
+    #img-start {
+      display: block;
+      margin: 0 auto;
+    }
+
+    .text {
+      display: block;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 28px;
+      text-transform: uppercase;
+      color: #fff;
+      margin: 20px 0 20px;
+      letter-spacing: 0.2px;
+    }
+
+    .btn {
+      cursor: pointer;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      color: #1c6c2e;
+      margin: 20px 0 20px;
+      background-color: #fff;
+      padding: 10px 20px;
+      opacity: 0.85;
+      border-radius: 4px;
+      border: none;
+    }
+
+  #container__game {
+    display: none;
+    width: 830px;
+
+  }
+
+    .field__info {
+      display: inline-block;
+      widows: 100%;
+
+    }
+
+      #start-new{
+        display: block;
+        float: left;
+        color: #fff;
+        font-size: 14px;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      #points {
+        display: block;
+        float: right;
+        color: #fff;
+        font-size: 14px;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 600;
+      }
+
+        #points__current {
+          font-family: Krungthep;
+          font-weight: normal;
+        }
+
+    .field ul{
+      display: inline-block;
+      padding: 0;
+      margin: 0 -20px;
+    }
+
+      .field__card {
+        display: block;
+        float: left;
+        padding: 20px;
+        width: 145px;
+        height: 185px;
+        
+      }
+
+        .card {
+          display: block;
+          width: 100%;
+          height: 100%;
+          background-image: url("../img/back.gif");
+          background-size: 105px 145px;
+        }
