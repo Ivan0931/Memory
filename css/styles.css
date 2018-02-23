@@ -16,6 +16,7 @@ html {
 	height: 100%;
   width: 100%;
   outline: hidden;
+  font-family: Arial;
 }
 
 body {
@@ -126,11 +127,37 @@ ul li{
         width: 105px;
         height: 145px;
         margin: 20px;
+        position: relative;
       }
-        .card {
+        .cards img {
           display: block;
+          position: absolute;
+          top:0;
+          left: 0;
           width: 100%;
           height: 100%;
+          transition: all 0.5s;
+        }
+
+        .card-back {
+          z-index: 200;
+        }
+
+        .card-face {
+          z-index: 100;
+          transform: rotateY(90deg)
+        }
+
+        .cards.active .card-back {
+          transform: rotateY(180deg);
+          transition: all 0.5s;
+          z-index: 100;
+        }
+
+        .cards.active .card-face {
+          transform: rotateY(0deg);
+          transition: all 0.5s;
+          z-index: 200;
         }
 
   #container__end {
