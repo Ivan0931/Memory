@@ -60,7 +60,7 @@ ul li{
       font-family: 'Open Sans', sans-serif;
       font-weight: 700;
       font-size: 28px;
-      text-transform: uppercase;
+     
       color: #fff;
       margin: 20px 0 20px;
       letter-spacing: 0.2px;
@@ -83,6 +83,7 @@ ul li{
     display: none;
     width: 830px;
     min-width: 830px;
+
   }
 
     .field__info {
@@ -123,6 +124,8 @@ ul li{
 
       .cards {
         display: block;
+        border-radius: 7px;
+        overflow: hidden;
         float: left;
         width: 105px;
         height: 145px;
@@ -159,6 +162,25 @@ ul li{
           transition: all 0.5s;
           z-index: 200;
         }
+
+        .done {
+          transform: rotateY(0deg);
+          z-index: 500;
+        }
+
+        div[data-tid="Card-flipped"] .card-face{
+          transform: rotateY(0deg);
+          transition: all 0.5s;
+          z-index: 200;
+        }
+
+        div[data-tid="Card-flipped"] .card-back{
+          transform: rotateY(180deg);
+          transition: all 0.5s;
+          z-index: 100;
+        }
+
+
 
   #container__end {
     display: none;

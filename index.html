@@ -11,13 +11,13 @@
 	<div class="container">
 		<div id="container__start">
 			<img id="img-start" src="img/StartGame.png">
-			<span class="text">memory game</span>
-			<button id="btn-start" class="btn">Начать игру</button>
+			<span class="text" style="text-transform: uppercase">memory game</span>
+			<button id="btn-start" class="btn" data-start-game="FirstPage">Начать игру</button>
 		</div>
 		<div id="container__game">
 			<div class="field">
 				<div id="field__info">
-					<span id="start-new">Начать заново</span>
+					<span id="start-new" data-start-game="SecondPage">Начать заново</span>
 					<span id="points">Очки: <span id="points__current"></span></span>
 				</div>
 				<div id="field__cards"></div>
@@ -25,6 +25,9 @@
 		</div>
 		<div id="container__end">
 			<img id="img-start" src="img/Group.png">
+			<span class="text">Поздравляем!</span>
+			<span class="text">Ваш итоговый счет: <span id="summary-points"></span></span>
+			<button id="btn-one-more" class="btn" data-start-game="ThirdPage">Еще раз</button>
 		</div>
 	</div>
    	<script src="js/script.js"></script>
