@@ -41,7 +41,12 @@
 	};
 
 	function removingCards () {
-		
+		acc = 0;
+		accCards = [];
+		points = 0;
+		Array.from(clickedCard).forEach( element => {
+			element.children[1].remove();
+		});
 	};
 
 
@@ -72,43 +77,46 @@
 				fieldStart.style.cssText = "display: none";
 				fieldGame.style.cssText = "display: block";
 				field.innerHTML = img.repeat(18);			
-				newCardsLayout();
 				pointsContainer.innerHTML = '0';
+				
 			};
 
 			if(element.getAttribute('data-start-game') == 'SecondPage') {
-				removingCards();
-				field.innerHTML = img.repeat(18);			
-				newCardsLayout();
-				points = 0;
+				
+				removingCards ()			
 				pointsContainer.innerHTML = points;
+
 			};
 
 			if(element.getAttribute('data-start-game') == 'ThirdPage') {
 				fieldGame.style.cssText = "display: block";
 				fieldEnd.style.cssText = "display: none";
-				removingCards();
+				removingCards ();
+				pointsContainer.innerHTML = '0';
 			};
 
+			newCardsLayout();
 			eventOnClick(field);
 
 		});
 	});
 	
-
-	
-
 	function eventOnClick(fieldCards) {
 		fieldCards.addEventListener('click', function(event) {
 			let target = event.target,
 			currentCard = target.parentNode;
 
 			if (currentCard.children[1].classList.contains('done')) return;
-			++acc;
+			
+			if (acc > 2) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
 
-			if (currentCard.hasAttribute('data-tid')) {
-				
-				if(currentCard.getAttribute('data-tid') == 'Card' && acc <=2){
+			if (currentCard.hasAttribute('data-tid') && currentCard.getAttribute('data-tid') == 'Card') {
+				++acc;
+
+				if (acc <= 2){
 					currentCard.setAttribute('data-tid', 'Card-flipped');
 
 					accCards.push({
@@ -129,25 +137,28 @@
 	     							element.children[1].classList.add('done');
 	     						}
 	     					});
+	     				if (accCards.length == 18)
+	     					points += 84;
 	     				points += (18 - accCards.length) * 42;
      					pointsContainer.innerHTML = points;
 	     				acc = 0;
      				}
 
-     				else if (accCards.length % 2 == 0 && 
+     				if (accCards.length % 2 == 0 && 
      					(accCards[i].cardName != accCards[i-1].cardName) ) {
 
      					points -= accCards.length * 42;
      					pointsContainer.innerHTML = points;
+     					
      					setTimeout(() => 
      						Array.from(clickedCard).forEach(element => {
 		     					element.setAttribute('data-tid', 'Card');
 		     					accCards.splice(i-1, 2);
 		     					acc = 0;
-     						}), 1000);
+     						}), 500);
      				}
-     				//    ????????????
-     				else if (accCards.length % 2 == 0 && 
+
+     				if (accCards.length % 2 == 0 && 
      					(accCards[i].cardName == accCards[i-1].cardName && 
      					accCards[i].cardId == accCards[i-1].cardId)) {
      					points = points;
@@ -155,27 +166,26 @@
      					acc = 0;
      				}
 
-
-     				//		????????
 				}
+
 					
-				else if (currentCard.getAttribute('data-tid') == 'Card-flipped' && acc > 2) {
+				else if (currentCard.getAttribute('data-tid') == 'Card-flipped' && acc <= 2 || acc > 2) {
 					currentCard.setAttribute('data-tid', 'Card');
 					acc = 0;
 				}
+
+				if (accCards.length == 18){
+					fieldGame.style.cssText = "display: none";
+					fieldEnd.style.cssText = "display: block";
+					let summary = document.getElementById('summary-points');
+					summary.innerHTML = points;
+				}
+				
 			};
 			
-			// goToEnd();
 		})
 	};
 
-	function goToEnd() {
-		let doneCards = document.getElementsByClassName('done');
-		if(doneCards.length == 18) {
-			fieldGame.style.cssText = "display: none";
-			fieldEnd.style.cssText = "display: block";
-		};
-	};
-
+	
 	
 };

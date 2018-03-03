@@ -184,4 +184,7 @@ ul li{
 
   #container__end {
     display: none;
+    width: 830px;
+    min-width: 830px;
+    text-align: center;
   }
