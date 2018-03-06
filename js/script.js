@@ -12,15 +12,15 @@
 			goNew = document.querySelectorAll('[data-start-game]');
 
 	var img = `<div class=\"cards\" data-tid=\"Card\">
-					<img src=\"img/back.gif\" class=\"card-back\">
+					<img src=\"img/back.png\" class=\"card-back\">
 					
 				</div>`,
-		cardDeck = [],
-		acc = 0,
-		accCards = [],
+		cardDeck = [], //array of 
+		acc = 0, //accumulator of clicks on the card field
+		accCards = [], // array of cards which has a pair
 		points = 0;
 
-	//create an array of objects of cards with name and src of faces images
+	//create an array of card objects with name and src of faces images
 	for (let i = 2; i < 15; i++) {
 		for (let n = 0; n < 4; n++) {
 			cardDeck.push( {name: i + cardName[n], src: `img/${ i + cardName[n] }.png`} );
@@ -40,6 +40,7 @@
 		return shuffleCards(newArr.concat(newArr));
 	};
 
+	//start new game and old cards are removed
 	function removingCards () {
 		acc = 0;
 		accCards = [];
@@ -49,143 +50,118 @@
 		});
 	};
 
-
+	//when click on buttons 'new game' or 'one more game'
+	//return 18 sorted cards and 5 sec they will be flipped
 	function newCardsLayout(cards = getShuffledCards(cardDeck)) {
 		Array.from(clickedCard).forEach((element, index) => {
 
 			//add tag img into cards (faces of cards)
 			let img = document.createElement('img');
 			img.src = cards[index].src;
-			img.setAttribute('data-Card-Name', cards[index].name)
+			img.setAttribute('data-card-name', cards[index].name)
 			img.id = 'openCard' + index;
 			img.className = "card-face done";
 			element.appendChild(img);
-			element.setAttribute('data-tid', 'Card-flipped');
+			element.dataset.tid = 'Card-flipped';
 
 			setTimeout(function() {
 				element.children[1].classList.remove('done');	
-				element.setAttribute('data-tid', 'Card');			
+				element.dataset.tid = 'Card';			
 			}, 5000);
 		});
 	};
 
-	//push on the button start game
+	function gameIsDone(openedCards) {
+		if (openedCards == 18) {
+			fieldGame.style.cssText = "display: none";
+			fieldEnd.style.cssText = "display: block";
+			let summary = document.getElementById('summary-points');
+			summary.innerHTML = points + 84;
+		}
+	}
+
+	//click on the button start game or one more game 
 	Array.from(goNew).forEach(element => {
 		element.addEventListener("click", () => {
-
-			if(element.getAttribute('data-start-game') == 'FirstPage') {
+			
+			if(element.dataset.startGame == 'FirstPage') {
 				fieldStart.style.cssText = "display: none";
 				fieldGame.style.cssText = "display: block";
 				field.innerHTML = img.repeat(18);			
-				pointsContainer.innerHTML = '0';
-				
 			};
 
-			if(element.getAttribute('data-start-game') == 'SecondPage') {
-				
+			if(element.dataset.startGame == 'SecondPage') {
 				removingCards ()			
-				pointsContainer.innerHTML = points;
-
 			};
 
-			if(element.getAttribute('data-start-game') == 'ThirdPage') {
+			if(element.dataset.startGame == 'ThirdPage') {
 				fieldGame.style.cssText = "display: block";
 				fieldEnd.style.cssText = "display: none";
 				removingCards ();
-				pointsContainer.innerHTML = '0';
 			};
 
 			newCardsLayout();
+			pointsContainer.innerHTML = '0';
 			eventOnClick(field);
 
 		});
 	});
 	
+	//create event listerner by card field and check that click was on a card
 	function eventOnClick(fieldCards) {
 		fieldCards.addEventListener('click', function(event) {
 			let target = event.target,
 			currentCard = target.parentNode;
 
-			if (currentCard.children[1].classList.contains('done')) return;
-			
-			if (acc > 2) {
-				event.preventDefault();
-				event.stopPropagation();
-			}
+			if (currentCard.children[1].classList.contains('done')) return; // click on a card which was flipped and has a pair
 
-			if (currentCard.hasAttribute('data-tid') && currentCard.getAttribute('data-tid') == 'Card') {
+			if (currentCard.hasAttribute('data-tid') && currentCard.dataset.tid == 'Card') {
 				++acc;
 
 				if (acc <= 2){
-					currentCard.setAttribute('data-tid', 'Card-flipped');
+					currentCard.dataset.tid = 'Card-flipped';
 
 					accCards.push({
-						cardName: currentCard.children[1].getAttribute('data-Card-Name'),
+						cardName: currentCard.children[1].dataset.cardName,
 						cardId: currentCard.children[1].id
 					});
 
+					let i = accCards.length - 1; //current index of first flipped card
 
-					let i = accCards.length - 1;
-
-
-
+					//cards have the same name and different id
+					//that mean it's a pair and add points
      				if (accCards.length % 2 == 0 && 
      					accCards[i].cardName == accCards[i-1].cardName && 
      					accCards[i].cardId != accCards[i-1].cardId) {
+
 	     					Array.from(clickedCard).forEach(element => {
-	     						if(element.getAttribute('data-tid') == 'Card-flipped'){
+	     						if(element.dataset.tid == 'Card-flipped'){
 	     							element.children[1].classList.add('done');
 	     						}
 	     					});
-	     				if (accCards.length == 18)
-	     					points += 84;
 	     				points += (18 - accCards.length) * 42;
      					pointsContainer.innerHTML = points;
 	     				acc = 0;
      				}
 
+     				//it's not a pair, substact points
      				if (accCards.length % 2 == 0 && 
      					(accCards[i].cardName != accCards[i-1].cardName) ) {
-
+     					acc = 0;
      					points -= accCards.length * 42;
      					pointsContainer.innerHTML = points;
-     					
+     					accCards.splice(i-1, 2);
      					setTimeout(() => 
      						Array.from(clickedCard).forEach(element => {
-		     					element.setAttribute('data-tid', 'Card');
-		     					accCards.splice(i-1, 2);
-		     					acc = 0;
-     						}), 500);
+		     					element.dataset.tid = 'Card';
+     						}), 400);
      				}
-
-     				if (accCards.length % 2 == 0 && 
-     					(accCards[i].cardName == accCards[i-1].cardName && 
-     					accCards[i].cardId == accCards[i-1].cardId)) {
-     					points = points;
-     					accCards.splice(i-1, 2);
-     					acc = 0;
-     				}
-
 				}
 
-					
-				else if (currentCard.getAttribute('data-tid') == 'Card-flipped' && acc <= 2 || acc > 2) {
-					currentCard.setAttribute('data-tid', 'Card');
-					acc = 0;
-				}
-
-				if (accCards.length == 18){
-					fieldGame.style.cssText = "display: none";
-					fieldEnd.style.cssText = "display: block";
-					let summary = document.getElementById('summary-points');
-					summary.innerHTML = points;
-				}
-				
-			};
-			
+				//the end of the game
+				gameIsDone(accCards.length);
+			}
 		})
 	};
 
-	
-	
 };
