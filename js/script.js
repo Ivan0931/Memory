@@ -15,22 +15,47 @@
 					<img src=\"img/back.png\" class=\"card-back\">
 					
 				</div>`,
-		cardDeck = [], //array of 
 		acc = 0, //accumulator of clicks on the card field
 		accCards = [], // array of cards which has a pair
-		points = 0;
+		points = 0,
+		audio = {
+			soundOpenCard: () => {
+					let snd = new Audio("voice.wav");
+					snd.play();
+			},
+			soundWin: () => {
+					let snd = new Audio("end.wav");
+					snd.play();
+			},
+			soundStart: () => {
+					let snd = new Audio("shuffling.wav");
+					snd.play();
+			},
+			soundPoints: () => {
+					let snd = new Audio("points.wav");
+					snd.play();
+			},
+			soundFail: () => {
+					let snd = new Audio("fail.wav");
+					snd.play();
+			}
+		};
 
-	//create an array of card objects with name and src of faces images
-	for (let i = 2; i < 15; i++) {
-		for (let n = 0; n < 4; n++) {
-			cardDeck.push( {name: i + cardName[n], src: `img/${ i + cardName[n] }.png`} );
-		}
+	function cardsArray() {
+		let cardDeck = [];
+		for (let i = 2; i < 15; i++) {
+			for (let n = 0; n < 4; n++) {
+				cardDeck.push( {name: i + cardName[n], src: `img/${ i + cardName[n] }.png`} );
+			}
+		};
+		return cardDeck;
 	};
+
 
 	//get 18 sorted cards
 	function getShuffledCards(cards) {
 		let newArr = [];
-		let shuffleCards = function (array) {
+		let shuffleCards = array => {
 			return array.map((a) => 
 								[Math.random(),a])
 							.sort((a,b) => a[0]-b[0])
@@ -52,7 +77,7 @@
 
 	//when click on buttons 'new game' or 'one more game'
 	//return 18 sorted cards and 5 sec they will be flipped
-	function newCardsLayout(cards = getShuffledCards(cardDeck)) {
+	function newCardsLayout(cards = getShuffledCards(cardsArray())) {
 		Array.from(clickedCard).forEach((element, index) => {
 
 			//add tag img into cards (faces of cards)
@@ -63,7 +88,7 @@
 			img.className = "card-face done";
 			element.appendChild(img);
 			element.dataset.tid = 'Card-flipped';
-
+			element.style.opacity = 1;
 			setTimeout(function() {
 				element.children[1].classList.remove('done');	
 				element.dataset.tid = 'Card';			
@@ -77,6 +102,7 @@
 			fieldEnd.style.cssText = "display: block";
 			let summary = document.getElementById('summary-points');
 			summary.innerHTML = points + 84;
+			audio.soundWin();
 		}
 	}
 
@@ -91,7 +117,8 @@
 			};
 
 			if(element.dataset.startGame == 'SecondPage') {
-				removingCards ()			
+				removingCards ();
+						
 			};
 
 			if(element.dataset.startGame == 'ThirdPage') {
@@ -103,21 +130,21 @@
 			newCardsLayout();
 			pointsContainer.innerHTML = '0';
 			eventOnClick(field);
-
+			audio.soundStart();	
 		});
 	});
 	
 	//create event listerner by card field and check that click was on a card
 	function eventOnClick(fieldCards) {
-		fieldCards.addEventListener('click', function(event) {
+		fieldCards.addEventListener('click', event => {
 			let target = event.target,
 			currentCard = target.parentNode;
-
 			if (currentCard.children[1].classList.contains('done')) return; // click on a card which was flipped and has a pair
+			
 
 			if (currentCard.hasAttribute('data-tid') && currentCard.dataset.tid == 'Card') {
 				++acc;
-
+				audio.soundOpenCard();
 				if (acc <= 2){
 					currentCard.dataset.tid = 'Card-flipped';
 
@@ -136,9 +163,14 @@
 
 	     					Array.from(clickedCard).forEach(element => {
 	     						if(element.dataset.tid == 'Card-flipped'){
+	     							setTimeout(() => element.style.opacity = 0, 400);
 	     							element.children[1].classList.add('done');
+	     							
 	     						}
 	     					});
+
+	     				setTimeout(() => audio.soundPoints(), 500);
+	     				
 	     				points += (18 - accCards.length) * 42;
      					pointsContainer.innerHTML = points;
 	     				acc = 0;
@@ -148,20 +180,22 @@
      				if (accCards.length % 2 == 0 && 
      					(accCards[i].cardName != accCards[i-1].cardName) ) {
      					acc = 0;
+     					accCards.splice(i-1, 2);
      					points -= accCards.length * 42;
      					pointsContainer.innerHTML = points;
-     					accCards.splice(i-1, 2);
      					setTimeout(() => 
      						Array.from(clickedCard).forEach(element => {
 		     					element.dataset.tid = 'Card';
+
      						}), 400);
      				}
 				}
 
 				//the end of the game
-				gameIsDone(accCards.length);
+				setTimeout(() => gameIsDone(accCards.length), 500);
+				
 			}
 		})
 	};
 
-};
+}
