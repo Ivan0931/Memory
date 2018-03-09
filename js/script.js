@@ -20,23 +20,23 @@
 		points = 0,
 		audio = {
 			soundOpenCard: () => {
-					let snd = new Audio("voice.wav");
+					let snd = new Audio("sounds/voice.wav");
 					snd.play();
 			},
 			soundWin: () => {
-					let snd = new Audio("end.wav");
+					let snd = new Audio("sounds/end.wav");
 					snd.play();
 			},
 			soundStart: () => {
-					let snd = new Audio("shuffling.wav");
+					let snd = new Audio("sounds/shuffling.wav");
 					snd.play();
 			},
 			soundPoints: () => {
-					let snd = new Audio("points.wav");
+					let snd = new Audio("sounds/points.wav");
 					snd.play();
 			},
 			soundFail: () => {
-					let snd = new Audio("fail.wav");
+					let snd = new Audio("sounds/fail.wav");
 					snd.play();
 			}
 		};
