@@ -1,3 +1,6 @@
+//_________________________________________________________________________________
+//ссылка на мой репозиторий для игры на Github - https://github.com/Ivan0931/Memory
+//_________________________________________________________________________________
 {
 
 	"use strict"
@@ -134,7 +137,7 @@
 		});
 	});
 	
-	//create event listerner by card field and check that click was on a card
+	//create event listerner by card field and check that click was on a card, logic
 	function eventOnClick(fieldCards) {
 		fieldCards.addEventListener('click', event => {
 			let target = event.target,
