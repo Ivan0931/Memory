@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Memory Game</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+<body>
+	<div class="container" data-tid="App">
+		<div id="container__start">
+			<img id="img-start" src="img/StartGame.png">
+			<span class="text" style="text-transform: uppercase">memory game</span>
+			<button id="btn-start" class="btn" data-tid="NewGame-startGame" data-start-game="FirstPage">Начать игру</button>
+		</div>
+		<div id="container__game">
+			<div class="field" data-tid="Deck">
+				<div id="field__info">
+					<span id="start-new" data-tid="Menu-newGame" data-start-game="SecondPage">Начать заново</span>
+					<span id="points">Очки: <span id="points__current" data-tid="Menu-scores"></span></span>
+				</div>
+				<div id="field__cards"></div>
+			</div>
+		</div>
+		<div id="container__end">
+			<img id="img-start" src="img/Group.png">
+			<span class="text">Поздравляем!</span>
+			<span class="text">Ваш итоговый счет: <span id="summary-points"></span></span>
+			<button id="btn-one-more" class="btn" data-tid="EndGame-retryGame" data-start-game="ThirdPage">Еще раз</button>
+		</div>
+	</div>
+	<script type="module" src="js/script.js"></script>
+</body>
+</html>

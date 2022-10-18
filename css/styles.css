@@ -1,0 +1,194 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:600,700');
+@font-face {
+    font-family: Krungthep;
+    src: url(../fonts/Krungthep.woff);
+   }
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: none;
+
+}
+
+html {
+    height: 100%;
+    width: 100%;
+    outline: hidden;
+    font-family: Arial;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    background-color: #1c6c2e;
+}
+
+ul li{
+    list-style-type: none;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    align-content: center; 
+    justify-content: center; 
+    overflow: auto;   
+}
+
+    #container__start {
+        display: block;
+        width: 820px;
+        min-width: 820px;
+        text-align: center;
+    }
+    
+        #img-start {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .text {
+            display: block;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 700;
+            font-size: 28px;
+            color: #fff;
+            margin: 20px 0 20px;
+            letter-spacing: 0.2px;
+        }
+
+        .btn {
+            cursor: pointer;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+            color: #1c6c2e;
+            margin: 20px 0 20px;
+            background-color: #fff;
+            padding: 10px 20px;
+            opacity: 0.85;
+            border-radius: 4px;
+            border: none;
+        }
+
+    #container__game {
+        display: none;
+        width: 830px;
+        min-width: 830px;
+    }
+
+        .field__info {
+            display: inline-block;
+            widows: 100%;
+        }
+
+            #start-new{
+                display: block;
+                float: left;
+                color: #fff;
+                font-size: 14px;
+                font-family: 'Open Sans', sans-serif;
+                font-weight: 600;
+                cursor: pointer;
+            }
+
+            #points {
+                display: block;
+                float: right;
+                color: #fff;
+                font-size: 14px;
+                font-family: 'Open Sans', sans-serif;
+                font-weight: 600;
+            }
+
+            #points__current {
+                font-family: Krungthep;
+                font-weight: normal;
+            }
+
+        #field__cards {
+            display: inline-block;
+            padding: 0;
+            margin: 0 -20px;
+        }
+
+        .cards {
+            display: block;
+            border-radius: 7px;
+            overflow: hidden;
+            float: left;
+            width: 105px;
+            height: 145px;
+            margin: 20px;
+            position: relative;
+        }
+        .cards img {
+            display: block;
+            position: absolute;
+            top:0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            -webkit-transition: all 0.5s;
+            -moz-transition: all 0.5s;
+            -o-transition: all 0.5s;
+            transition: all 0.5s;
+        }
+
+        .card-back {
+            z-index: 200;
+        }
+
+        .card-face {
+            z-index: 100;
+            -webkit-transform: rotateY(90deg);
+            -moz-transform: rotateY(90deg);
+            -o-transform: rotateY(90deg);
+            transform: rotateY(90deg);
+        }
+
+        .done {
+            -webkit-transform: rotateY(0deg);
+            -moz-transform: rotateY(0deg);
+            -o-transform: rotateY(0deg);
+            transform: rotateY(0deg);
+            z-index: 500;
+        }
+
+            div[data-tid="Card-flipped"] .card-face{
+                -webkit-transform: rotateY(0deg);
+                -moz-transform: rotateY(0deg);
+                -o-transform: rotateY(0deg);
+                transform: rotateY(0deg);
+                -webkit-transition: all 0.5s;
+                -moz-transition: all 0.5s;
+                -o-transition: all 0.5s;
+                transition: all 0.5s;
+                z-index: 200;
+            }
+
+            div[data-tid="Card-flipped"] .card-back{
+                -webkit-transform: rotateY(180deg);
+                -moz-transform: rotateY(180deg);
+                -o-transform: rotateY(180deg);
+                transform: rotateY(180deg);
+                -webkit-transition: all 0.5s;
+                -moz-transition: all 0.5s;
+                -o-transition: all 0.5s;
+                transition: all 0.5s;
+                z-index: 100;
+            }
+
+    #container__end {
+        display: none;
+        width: 830px;
+        min-width: 830px;
+        text-align: center;
+    }
