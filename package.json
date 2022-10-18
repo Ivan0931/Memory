@@ -1,0 +1,21 @@
+{
+  "homepage": "https://ivan0931.github.io/Memory/",
+  "name": "memory",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "node build.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ivan0931/Memory.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gh-pages": "^4.0.0",
+    "jest": "^29.2.0"
+  }
+}
